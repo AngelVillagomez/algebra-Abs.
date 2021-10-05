@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+
+int mcdExtended(int a, int b, int *x, int *y)
+{
+  if (a == 0)
+  {
+    *x = 0;
+    *y = 1;
+    return b;
+  }
+
+  int x1, y1,mcd; 
+  mcd = mcdExtended(b%a, a, &x1, &y1);
+
+  *x = y1 - (b/a) * x1;
+  *y = x1;
+
+  //cout<<endl<<"x: "<<*x<<endl;
+  //cout<<"y: "<<*y<<endl;
+  return mcd;
+}
+
+
+
+int main()
+{
+  int a , b ,x,y;
+  cout<<"numero mayor: ";cin>>a;
+  cout<<"numero menor: ";cin>>b;
+
+  cout << "MCD(" << a << ", "<< b << ") = " << mcdExtended(a, b, &x, &y)<<" => "<<a<<"*"<<x<<"+"<<b<<"*"<<y<<"="<<mcdExtended(a, b, &x, &y)<< endl;
+}

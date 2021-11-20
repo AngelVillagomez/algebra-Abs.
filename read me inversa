@@ -1,0 +1,22 @@
+el algoritmo empieza con la funcion modulo para evitar tener numeros negativos cuando usamos "%"
+
+luego se usa la funcion "euclides_ext" que obtiene 2 numeros, creamos una variable mcd que sea igual a 0
+inicializamos las varibles necesarias para realizar euclides extendido, seguido de esto si es que obtenemos 0 en la varible "r2" tendremos una varible q que sera igual a la division de r1 con r2
+a la variable r la igualamos a r1 menos el producto de q con r2
+despues la variables corren una espacio ya asi r1 se convierte en r2 y r2 en r
+a la variable s se la iguala a s1 menos el producto de q con r2
+y al igual que las anteriores variables recorren un espacio
+para la varible t se realiza el mismo procedimiento
+
+al salir del while a s se la iguala a s1
+si s es menor a 0,se igualara a al modulo de s con b esto para evitar que nuestra funcion falle
+al final se retorna s
+
+usamos la funcion para obtener el mcd
+
+y luego usamos la funcion inversa que ovtiene dos numeros a y n
+mientras que el mcd sea 1 
+tendremos una varible x que contendra el euclidels extendido de a con n
+luego comprobamos que el modulo de a*x y nsea igual a 1 para asi retornar x
+si es que no diremos que no existe una inversa
+luego al salir del if queremos decir que los numeros dados al pricipio no son coprimos por ende no puede haber una inversa

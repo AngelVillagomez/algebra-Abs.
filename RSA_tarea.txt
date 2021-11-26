@@ -1,0 +1,247 @@
+#include <stdlib.h>
+#include <time.h>
+#include <vector>
+#include <iostream>
+#include <math.h>
+#include <string>
+
+using namespace std;
+
+int modulo(int a, int b)
+{
+	int r = a - ((a / b) * b);
+	if (r < 0)
+		r = a - (((a / b) - 1) * b);
+	return r;
+};
+int random(int rango, int inicio = 0)
+{
+	int num = inicio + rand() % (rango - inicio);
+	return num;
+};
+
+int exp_modular(int base, int exp, int n)
+{
+	int x = 1; 
+	vector<int>mods;
+	vector<int>exponentes;
+	mods.push_back(modulo(base, n));
+	int resultado = mods[0];
+	int pos = 0;
+	int ite = 1;
+	while (exp > 0)
+	{
+		int bit = modulo(exp, 2);
+		if (ite > 1)
+		{
+			int mod_anterior = mods[pos];
+			int aux = modulo(pow(mod_anterior, 2), n);
+			mods.push_back(aux);
+			pos++;
+			if (bit)
+			{
+				int n1, n2;
+				n1 = modulo(resultado, n);
+				n2 = modulo(mods[pos], n);
+				resultado = modulo(n1 * n2, n);
+			}
+		}
+		exp /= 2;
+		x *= 2;
+		ite++;
+	}
+	return resultado;
+}
+
+int mcd(int a, int b)
+{
+	if (abs(b) > abs(a))
+		return mcd(b, a);
+	if (b == 0)
+		return a;
+	if (modulo(a, 2) == 0 && modulo(b, 2) == 0)
+		return 2 * mcd(a >> 1, b >> 1);
+	if (modulo(a, 2) == 0 && modulo(b, 2) == 1)
+		return mcd(a >> 1, b);
+	if (modulo(a, 2) == 1 && modulo(b, 2) == 0)
+		return mcd(a, b >> 1);
+	return mcd((abs(a) - abs(b)) >> 1, b);
+}
+
+int euclides_ext(int a, int b)
+{
+	int r1 = a, r2 = b;
+	int s1 = 1, s2 = 0;
+	int t1 = 0, t2 = 1;
+	int s;
+	int t;
+	while (r2 > 0)
+	{
+		int q = r1 / r2;
+		int r = r1 - (q * r2);
+		r1 = r2; r2 = r;
+
+		s = s1 - (q * s2);
+		s1 = s2; s2 = s;
+
+		t = t1 - (q * t2);
+		t1 = t2; t2 = t;
+	};
+	s = s1;
+	if (s < 0)
+		s = modulo(s, b);
+	return s;
+}
+
+int inversa(int a, int n)
+{
+	if (mcd(n, a) == 1)
+	{
+		int x = euclides_ext(a, n);
+		if (modulo(a * x, n) == 1)
+			return x;
+	}
+	return 0;
+}
+//funciones criba
+void inicializar_lista(vector<int> & a, int inicio, int rango)
+{
+	if (inicio <= 2)
+		a.push_back(2);
+	if (modulo(inicio, 2) == 0)
+		inicio++;
+	for (int j = inicio; j <= rango; j += 2)
+		a.push_back(j);
+}
+void delete_num(vector<int>&a,int rango)
+{
+	for (int i = 1; i < a.size(); i++)
+	{
+		if (a[i] * a[i] <= rango)
+		{
+			for (int j = i + 1; j < a.size();)
+			{
+				if (modulo(a[j], a[i]) == 0)
+					a.erase(a.begin() + j);
+				else j++;
+			}
+		}
+		else i = a.size();
+	}
+}
+void criba(int inicio, int rango, int& a, int& b)
+{
+	srand(time(NULL));
+	vector<int> primos;
+	inicializar_lista(primos, inicio, rango);
+	delete_num(primos,rango);
+	a = primos[random(primos.size())];
+	do {
+		b = primos[random(primos.size())];
+	} while (a == b);
+}
+
+class RSA
+{
+	private:
+		int key_d=0;
+	public:		
+		string abecedario;
+		int key_e;
+		int N;
+		RSA(int _key_e, int _N);
+		string Cifrar(string _mensaje);
+		string Descifrar(string _mensaje_cifrado);
+		void set_key_d(int key);
+};
+RSA::RSA(int _N, int _key_e=0)
+{
+	abecedario = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.-( )abcdefghijklmnopqrstuvwxyz<>*1234567890";
+	key_e = _key_e;
+	N = _N;
+}
+void RSA::set_key_d(int key)
+{
+	key_d = key;
+}
+string RSA::Cifrar(string _mensaje)
+{
+	string mensaje_cifrado;
+	int size_msj = _mensaje.size();
+
+	for (int i = 0; i < size_msj; i++)
+	{
+		int pos = abecedario.find(_mensaje.at(i));
+		int Q = exp_modular(pos, key_e, N);
+
+		string valor = to_string(Q);
+		mensaje_cifrado += valor;
+		mensaje_cifrado += " ";
+	}
+	return mensaje_cifrado;
+}
+string RSA::Descifrar(string _mensaje_cifrado)
+{
+	string mensaje_descifrado;
+
+	int size_msj = _mensaje_cifrado.size();
+
+	for (int i = 0; i < _mensaje_cifrado.size();)
+	{
+		int pos_esp = _mensaje_cifrado.find(" ",i);
+		string letra = _mensaje_cifrado.substr(i, pos_esp);
+		_mensaje_cifrado.erase(i, letra.size()+1);
+		int Q = stoi(letra);
+		int D = exp_modular(Q, key_d, N);
+		mensaje_descifrado += abecedario[D];
+	}
+	
+	return mensaje_descifrado;
+}
+void numeros_primos(int & a, int & b, int rango)
+{
+	int inicio = random(rango, 1);
+	criba(inicio, rango, a, b);
+}
+int generar_claves()
+{
+	int p = 0, q = 0;
+	numeros_primos(p, q, 100);
+
+	int N = p * q;
+	int phi_N = (p - 1) * (q - 1);
+
+	int key_e, key_d;
+	do {
+		key_e = random(phi_N, 1);
+	} while (mcd(key_e, phi_N) != 1);
+
+	key_d= inversa(key_e, phi_N);
+	
+	cout << "\nClave publica es : <" << N << "," << key_e << ">" << endl;
+	return key_d;
+}
+int main()
+{
+	int key_d=generar_claves();
+	int key_e;
+	int N;
+
+	cout << endl << "Ingrese la clave publica: "; cin >> key_e;
+	cout << endl << "Ingrese N: "; cin >> N;
+
+	string mensaje;
+	cin.ignore();
+	cout << endl << "Ingrese la mensaje: "; getline(cin, mensaje);
+
+	RSA Emisor(N, key_e);
+
+	string mensaje_cifrado=Emisor.Cifrar(mensaje);
+	cout << endl << "Mensaje cifrado: " << mensaje_cifrado;
+
+	RSA Receptor(N);
+	Receptor.set_key_d(key_d);
+	cout << endl << "Ingrese N: "; cin >> N;
+	string mensaje_descifrado = Receptor.Descifrar(mensaje_cifrado);
+	cout << endl << "Mnesaje descifrado: " << mensaje_descifrado;
+}

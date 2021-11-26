@@ -1,0 +1,50 @@
+en el código se encuentra primeramente la funciones que vamos a utilizar más adelante en las clases primero la función módulo que es simplemente el equivalente de usar “%” pero no nos saldrán números negativos con esta función 
+
+luego encontramos la función random que nos pide como parámetros un rango y un inicio a la variable num se la iguala al inicio + el módulo de un número aleatorio y la resta del rango menos el inicio en esta ocasión hemos utilizado la función rand() que no ofrece c++ 
+
+hemos creado una función de exponenciación modular  la cual simplemente replica en código el cómo funciona la exponenciación modular clásica 
+
+la siguientes funciones son las funciones del mcd y el euclides extendido ya antes vistos en anteriores trabajos
+
+función inversa
+A continuación tenemos la función inversa la cual toma como parámetros a un número “a” y a “n” en este caso n vendria a ser el número de letras en nuestro alfabeto que estamos usando si es que el mcd de n con a es igual a 1 significa que podemos seguir con el procedimiento se inicializa una variable x y se la iguala al valor del euclides extendido de a con n si es que el módulo de a*n con n es igual a 1 entonces se retorna x si es que no se cumple se retorna 0
+
+función inicializar_lista
+para los generar los números primos aleatorios primero debemos pasar por la función inicializar_lista la cual toma un vector de enteros un valor inicio y un rango primero vamos con los casos especiales que son si el inicio es igual o menor a 2 entonces a la lista se añade el valor 2 luego si es que el módulo de inicio con 2 es igual a 0 entonces  a inicio se le suma 1 
+mientras que un valor j al que se le ha igualado al inicio sea menor que el rango ira aumentando de 2 en 2 y esos valores se añadirán a la lista
+
+función es delete_num
+la siguiente función es delete_num esta toma un lista de enteros llamada a y un rango mientras que un valor i que es igual a 1 sea menor al tamaño de la lista el valor i aumentar de 1 en 1 
+para que esto funcione la multiplicación de un número de la lista por el mismo tiene que ser menor al rango
+mientras que j que se le iguala a i+1 sea menor al tamaño de la lista y si es que el modulo del numero de la lista la que le corresponde j con el número al que le corresponde i sea iguala 0 a la lista se le borrará el número inicial + el valor de j si no a j se le sumará 1 si es que la multiplicación de un número de la lista por el mismo es mayor rango entonces a i se le iguala al tamaño de la lista
+
+función criba
+en la función criba que tiene como parámetros a inicio rango “a” y a “b” se selecciona un valor al azar en este caso será el tiempo se crea una lista de primos y llamamos a la función inicializar_lista luego eliminamos los números restantes con la función delete_num y a “a” se la iguala al valor de un número aleatorio de la lista de primos luego a b pasa por el mismo proceso de a pero esto solo pasa si es que a es igual a “b”
+
+clase RSA
+se crea aun clase RSA la clave privada como su nombre lo dice es de naturaleza privada dentro de la clase está el abecedario la clave pública es esta clase está el cifrado y descifrado
+
+cifrado
+para cifrar se toma como parámetro el mensaje sin cifrar se crea una variable size_msj que se iguala al tamaño del mensaje se crea una variable pos en la se encuentra la posición de cada letra del mensaje cifrado y se encuentra la posición de estas con cada letra del abecedario después se crea la variable q se contendrá la exponenciación modular de la posición elevado a la clave pública módulo N después  a Q se lo iguala al string llamado valor  a mensaje_cifrado se lo concatena con el string valor también se lo concatena con un espacio en blanco después de cifrar cada letra del mensaje original se retorna el mensaje cifrado completo
+
+descifrado
+para descifrar se toma como parámetro el mensaje cifrado a la variable size_msj al mensaje cifrado para la posición esperada “pos_esp” en el mensaje cifrado se encuentra la posición y el espacio en blanco un string llamado letra se la iguala un substring del mensaje cifrado que se encuentra la posición y la posición esperada  en el mensaje cifrado se borra desde la posición hasta una posición más de dek string letra el string letra se lo convierte a entero y se lo almacena en la varible Q se crea una variable D en la que está la exponenciación modular de Q elevado a la clave privada  modulo de N al mensaje cifrado se lo concatena con la letra del abecedario que le corresponde y se retorna  mensaje_descifrado
+
+numeros_primos
+luego tenemos la función numeros_primos que toma como parámetros a,b y el rango la variable inicio se le da un número al azar del rango y 1 se llama a criba para encontrar los números primos 
+
+generar_claves
+en la función generar_claves tenemos la variables p y q se llama a la función numeros_primos pero esta vez con p q y hasta el número 100 
+se tiene la variable N que es la multiplicación de p con q
+phi_N es (p - 1) * (q - 1) 
+la clave pública es igual a al número al azar hasta phi_N que inicia en 1 pero esto solo pasa si es que el mcd de la clave privada con phi_N es diferente a 1
+la clave privada es la inversa de la clave pública con phi_N y se retorna la clave privada
+
+p=3
+q=11
+n= 3*11=33
+phi_N= (3-1)(11-1)=20
+e =7
+d=3
+
+{26,7,3}

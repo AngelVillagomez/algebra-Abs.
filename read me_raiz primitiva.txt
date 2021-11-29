@@ -1,9 +1,0 @@
-primero tenemos la funcion modulo para evitar obtener numeros negativos al sacar el modulo
-
-para la raiz que vamos a analizar primero debemos comprobar si es un numero primo porlo que la pasamos como parametro en la funcion "comp"
-
-en la funcion "pow" es basicamente para calcular la exponenciacion modular
-
-la funcion "fac" es para almacenar los valores primos del numero 
-
-por ultimo en la funcion "prim" es donde se encuentra la raiz mas primitiva del numero 

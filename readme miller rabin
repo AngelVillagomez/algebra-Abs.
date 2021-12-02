@@ -1,0 +1,17 @@
+primero encontramos una funcion que encontre en internet para calcular los numeros de 10 bits
+
+la funcion multi_mod nos servira para ir aumntado el valor de 2^t+1
+
+la funcion exp_modular es simplemente la exponenciacion modular clasica
+
+en la funcion witness nos servira para saber si el numero ingresado es primo o no
+
+la funcion millerTest ingresamos como parametro el numero que se quiere comprobar y S que este caso va ser 20 ya que es valor que mejor se acomoda
+priemro se empieza por los casos base luego se iguala a x a n-1 y a t a 0 luego se convierte a codigo el teorema de miller rabin pero esta vez se aplica el witness
+para saber si es que el numero que tenemos es un pseudo primo o es un numero compuesto
+
+para la funcion generate creamos la variable n a la cual la igualamos a randomrange(4) el 4 es para el numero de digitos que va a tener el numero 
+a m lo igualamos a 2^(b-1) y por ultimo se retorna n con esto se comleta la mascara
+
+para generateprime se encuentra un while que mientras el numero no sea primo al mismo numero aumentara en 2
+de lo contrario de devuelve n
